@@ -216,7 +216,7 @@ Tabs.Sniper:AddButton({
 	Description = "Starts or stops your configured snipe.",
 	Callback = function()
 		local realVersion2 = game:HttpGet("https://raw.githubusercontent.com/IdkTheSecond/idk/main/version.txt")
-		if tostring(string.sub(realVersion2, 1, -2)) ~= currentVersion then
+		if tostring(string.sub(realVersion2, 1, -1)) ~= currentVersion then
 			toclipboard("https://discord.gg/asRy5w8Vg8")
 			game.Players.LocalPlayer:Kick("Outdated version! Please run the new one from here: .gg/asRy5w8Vg8 or from clipboard.")
 		end
