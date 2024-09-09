@@ -1,9 +1,9 @@
 -- Variables
 local currentVersion = "V1.0.0"
 local realVersion = game:HttpGet("https://raw.githubusercontent.com/IdkTheSecond/idk/main/version.txt")
-print(realVersion)
 if tostring(realVersion) ~= currentVersion then
 	toclipboard("https://discord.gg/asRy5w8Vg8")
+	toclipboard(realVersion)
 	--game.Players.LocalPlayer:Kick("Outdated version! Please run the new one from here: .gg/asRy5w8Vg8 or from clipboard.")
 end
 
