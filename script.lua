@@ -1,4 +1,11 @@
 -- Variables
+local currentVersion = "V1.0.0"
+local realVersion = game:HttpGet("https://raw.githubusercontent.com/IdkTheSecond/idk/main/version.txt")
+if realVersion ~= currentVersion then
+	toclipboard("https://discord.gg/asRy5w8Vg8")
+	game.Players.LocalPlayer:Kick("Outdated version! Please run the new one from here: .gg/asRy5w8Vg8 or from clipboard.")
+end
+
 local stripItems = true
 local catchSkins = true
 local sniping = false
@@ -208,14 +215,16 @@ Tabs.Sniper:AddButton({
 	Title = "Start/stop sniping",
 	Description = "Starts or stops your configured snipe.",
 	Callback = function()
-		print("1")
-		print("2")
+		local realVersion = game:HttpGet("https://raw.githubusercontent.com/IdkTheSecond/idk/main/version.txt")
+		if realVersion ~= currentVersion then
+			toclipboard("https://discord.gg/asRy5w8Vg8")
+			game.Players.LocalPlayer:Kick("Outdated version! Please run the new one from here: .gg/asRy5w8Vg8 or from clipboard.")
+		end
+		
 		sniping = not sniping
 		if sniping == true then
-			print("3")
 			local snipeArea = areaDropdown.Values[areaDropdown:GetActiveValues()]
 			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = snipeAreas[snipeArea][1]
-			print("4")
 			repeat
 				repeat
 					local args = {
