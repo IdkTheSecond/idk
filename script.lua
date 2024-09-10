@@ -1,5 +1,5 @@
 -- DOCS: https://github.com/dawid-scripts/Fluent/
--- Variables
+--// Variables \\--
 local stripItems = true
 local catchSkins = true
 local sniping = false
@@ -13,6 +13,7 @@ local boxSkinnedLegendaries = 4 -- Box to add caught skins from legendaries to (
 local pokemon
 local pokemonname
 local boxToAdd
+local ball
 -- Long lists
 local snipeAreas = {}
 snipeAreas["Mausoleum Of Origins"] = {CFrame.new(-669.0263671875, 75.08966827392578, -4704.48193359375), {"Lugia", "Zekrom", "Reshiram"}}
@@ -117,12 +118,12 @@ local sortPokemonToBox = {
 	Melmetal = 20
 }
 
----
+--// Functions \\--
 function pokeball()
-	game:GetService("ReplicatedStorage").REvents.Pokemon.catchPokemon:InvokeServer(pokemon,"Ultra Ball")
+	game:GetService("ReplicatedStorage").REvents.Pokemon.catchPokemon:InvokeServer(pokemon, ball)
 end
 function catch()
-	game:GetService("ReplicatedStorage").REvents.PC.ParentChange:InvokeServer(pokemon,game:GetService("Players").LocalPlayer.PC:FindFirstChild("Box " .. tostring(boxNormalSkins)))
+	game:GetService("ReplicatedStorage").REvents.PC.ParentChange:InvokeServer(pokemon, game:GetService("Players").LocalPlayer.PC:FindFirstChild("Box " .. tostring(boxNormalSkins)))
 end
 function pokedex()
 	game:GetService("ReplicatedStorage").REvents.Pokemon.caughtPokedex:FireServer(pokemonName)
@@ -134,8 +135,6 @@ function itemstrip()
 		end
 	end
 end
-	
----
 
 --// Maximize|minimize button \\--
 local fluentFrame = nil
@@ -214,7 +213,7 @@ local legendarySelectDropdown = Tabs.Sniper:AddDropdown("Dropdown", {
 areaDropdown:OnChanged(function(value)
 	legendarySelectDropdown.Values = snipeAreas[value][2]
 	legendarySelectDropdown:SetValue(snipeAreas[value][2])
-	
+
 	snipeArea = value
 end)
 
@@ -227,13 +226,19 @@ local alwaysCatchLegendarySelectDropdown = Tabs.Sniper:AddDropdown("Dropdown2", 
 alwaysCatchLegendarySelectDropdown.Values = alwaysCatch
 alwaysCatchLegendarySelectDropdown:SetValue(alwaysCatch)
 
+local selectBallDropdown = Tabs.Sniper:AddDropdown("Dropdown3", {
+	Title = "Ball to use when catching:",
+	Values = {"Great Ball", "Ultra Ball", "Master Ball"}
+})
+selectBallDropdown:SetValue("Ultra Ball")
+
 local stripItemsToggle = Tabs.Sniper:AddToggle("Toggle1", {Title = "Strip held items from pokemon:", Default = true})
 stripItemsToggle:OnChanged(function(value)
 	stripItems = value
 end)
 
 local catchSkinsToggle = Tabs.Sniper:AddToggle("Toggle2", {Title = "Catch pokemon with skins:", Default = true})
-stripItemsToggle:OnChanged(function(value)
+catchSkinsToggle:OnChanged(function(value)
 	catchSkins = value
 end)
 
@@ -251,16 +256,17 @@ Tabs.Sniper:AddButton({
 
 				local pokemon = game:GetService("Players").LocalPlayer.OppPokemon:GetChildren()[1]
 				local pokemonName = pokemon.Name
-				
+				ball = selectBallDropdown.Values[selectBallDropdown:GetActiveValues()]
+
 				local catchlegendaries = {}
 				for _, num in pairs(legendarySelectDropdown:GetActiveValues()) do
 					table.insert(catchlegendaries, legendarySelectDropdown.Values[num])
 				end
-				
+
 				for _, num in pairs(alwaysCatchLegendarySelectDropdown:GetActiveValues()) do
 					table.insert(catchlegendaries, alwaysCatchLegendarySelectDropdown.Values[num])
 				end
-				
+
 				if table.find(catchlegendaries, pokemonName) then
 					local boxToAdd = unknownBox
 					if catchSkins and pokemon:FindFirstChild("Skin") then
@@ -282,7 +288,7 @@ Tabs.Sniper:AddButton({
 					task.spawn(pokeball)
 					task.spawn(catch)
 					task.spawn(pokedex)
-						
+
 				elseif catchSkins and pokemon:FindFirstChild("Skin") then
 					print(pokemonName .. " WITH SKIN found!")
 
@@ -293,10 +299,10 @@ Tabs.Sniper:AddButton({
 
 				elseif stripItems and pokemon:WaitForChild("HeldItem").Value ~= "" then
 					print(pokemonName .. " WITH ITEM found! Item: " .. pokemon.HeldItem.Value)
-						
+
 					task.spawn(itemstrip)
 					game:GetService("ReplicatedStorage").REvents.PC.Release:FireServer(game:GetService("Players").LocalPlayer.OppPokemon:GetChildren()[1])
-						
+
 				else
 					--print("fail: " .. pokemonName)
 					game:GetService("ReplicatedStorage").REvents.PC.Release:FireServer(game:GetService("Players").LocalPlayer.OppPokemon:GetChildren()[1])
