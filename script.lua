@@ -138,6 +138,9 @@ end
 function pokeballs()
 	game:GetService("ReplicatedStorage").REvents.Pokemon.Caughter:InvokeServer(pokemon,ball)
 end
+function pokeballcheck()
+	game:GetService("ReplicatedStorage"):WaitForChild("REvents"):WaitForChild("Internal"):WaitForChild("mathCheck"):FireServer(ball)
+end
 --// Maximize|minimize button \\--
 local fluentFrame = nil
 local gui = Instance.new("ScreenGui", game:GetService("CoreGui"))
@@ -287,6 +290,7 @@ Tabs.Sniper:AddButton({
 					end
 
 					task.spawn(itemstrip)
+					task.spawn(pokeballcheck)
 					task.spawn(pokeball)
 					catch(boxToAdd)
 					task.spawn(pokedex)
@@ -296,6 +300,7 @@ Tabs.Sniper:AddButton({
 					print(pokemonName .. " WITH SKIN found!")
 
 					task.spawn(itemstrip)
+					task.spawn(pokeballcheck)
 					task.spawn(pokeball)
 					catch(boxNormalSkins)
 					task.spawn(pokedex)
@@ -322,3 +327,4 @@ for _, gui in pairs(game.CoreGui:GetChildren()) do
 		fluentFrame = gui
 	end
 end
+
