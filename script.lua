@@ -183,6 +183,7 @@ local Window = Fluent:CreateWindow({
 local Tabs = {
 	Main = Window:AddTab({Title = "Main", Icon = ""}),
 	Sniper = Window:AddTab({Title = "Sniper", Icon = ""}),
+	Report = Window:AddTab({Title = "Report Bug", Icon = ""})
 };
 Window:SelectTab(1);
 
@@ -328,3 +329,29 @@ for _, gui in pairs(game.CoreGui:GetChildren()) do
 	end
 end
 
+-- Report bug
+local reportInput = Tabs.Report:AddInput("Input1", {
+	Title = "Input",
+	Default = "",
+	Placeholder = "Add the issue you're having.",
+	Numeric = false,
+	Finished = false,
+	Callback = function(Value)
+		
+	end
+})
+
+Tabs.Report:AddButton({
+	Title = "Report bug",
+	Description = "Reports the current selected bug.",
+	Callback = function()
+		syn.request({
+			Url = "https://webhook.newstargeted.com/api/webhooks/1283117752466407496/48dr9-wL7ArmEpE6sqgUaL_CfnRh5OET1YZJYpA1v1Ilrn_u64vit2c_Aogz8f0DrTqI/queue",
+			Method = 'POST',
+			Headers = { ['Content-Type'] = 'application/json' },
+			Body = game.HttpService:JSONEncode({
+				content = game.Players.LocalPlayer.Name .. " (" .. tostring(game.Players.LocalPlayer.UserId) .. "): " .. reportInput.Value,
+			})
+		})
+	end
+});
