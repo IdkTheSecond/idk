@@ -135,7 +135,9 @@ function itemstrip()
 		end
 	end
 end
-
+function pokeballs()
+	game:GetService("ReplicatedStorage").REvents.Pokemon.Caughter:InvokeServer(pokemon,ball)
+end
 --// Maximize|minimize button \\--
 local fluentFrame = nil
 local gui = Instance.new("ScreenGui", game:GetService("CoreGui"))
@@ -288,6 +290,7 @@ Tabs.Sniper:AddButton({
 					task.spawn(pokeball)
 					catch(boxToAdd)
 					task.spawn(pokedex)
+					task.spawn(pokeballs)
 
 				elseif catchSkins and pokemon:FindFirstChild("Skin") then
 					print(pokemonName .. " WITH SKIN found!")
@@ -296,6 +299,7 @@ Tabs.Sniper:AddButton({
 					task.spawn(pokeball)
 					catch(boxNormalSkins)
 					task.spawn(pokedex)
+					task.spawn(pokeballs)
 
 				elseif stripItems and pokemon:WaitForChild("HeldItem").Value ~= "" then
 					print(pokemonName .. " WITH ITEM found! Item: " .. pokemon.HeldItem.Value)
