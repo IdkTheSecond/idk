@@ -1,5 +1,4 @@
 -- DOCS: https://github.com/dawid-scripts/Fluent/
---testing
 -- Variables
 local stripItems = true
 local catchSkins = true
