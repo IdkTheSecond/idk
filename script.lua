@@ -260,11 +260,11 @@ Tabs.Sniper:AddButton({
 
 				local catchlegendaries = {}
 				for _, num in pairs(legendarySelectDropdown:GetActiveValues()) do
-					table.insert(catchlegendaries, legendarySelectDropdown.Values[num])
+					table.insert(catchlegendaries, num)
 				end
 
 				for _, num in pairs(alwaysCatchLegendarySelectDropdown:GetActiveValues()) do
-					table.insert(catchlegendaries, alwaysCatchLegendarySelectDropdown.Values[num])
+					table.insert(catchlegendaries, num)
 				end
 
 				if table.find(catchlegendaries, pokemonName) then
