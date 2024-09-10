@@ -137,8 +137,34 @@ end
 	
 ---
 
+--// Maximize|minimize button \\--
+local fluentFrame = nil
+local gui = Instance.new("ScreenGui", game:GetService("CoreGui"))
+local button = Instance.new("ImageButton", gui)
+button.SizeConstraint = Enum.SizeConstraint.RelativeYY
+button.Size = UDim2.new(.15, 0, .15, 0)
+button.Image = "rbxassetid://74337056724489"
+button.Position = UDim2.new(.9, 0, .1, 0)
+button.BorderSizePixel = 0
+button.BackgroundTransparency = 1
+button.Activated:Connect(function()
+	if fluentFrame then
+		fluentFrame.Enabled = not fluentFrame.Enabled
+	end
+end)
+
+local uicorner = Instance.new("UICorner", button)
+uicorner.CornerRadius = UDim.new(.2, 0)
+
 --// Hub \\--
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))();
+toclipboard("https://discord.gg/asRy5w8Vg8")
+Fluent:Notify({
+	Title = "Welcome",
+	Content = "Thanks for using INSANE HUB!",
+	SubContent = "Join discord at: .gg/asRy5w8Vg8, copied to clipboard.",
+	Duration = 5
+})
 
 local Window = Fluent:CreateWindow({
 	Title = "Project Polaro [INSANE GUI]",
@@ -280,3 +306,9 @@ Tabs.Sniper:AddButton({
 		end
 	end
 });
+
+for _, gui in pairs(game.CoreGui:GetChildren()) do
+	if gui.Name == "ScreenGui" and #gui:GetChildren() == 5 then
+		fluentFrame = gui
+	end
+end
