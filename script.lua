@@ -11,7 +11,7 @@ local unknownBox = 2 -- Box to add to if pokemon is not listed or one time only
 local boxNormalSkins = 3 -- Box to add caught skins to (remember to move them!)
 local boxSkinnedLegendaries = 4 -- Box to add caught skins from legendaries to (remember to move them!)
 local pokemon
-local pokemonName
+local pokemonname
 local boxToAdd
 local ball
 -- Long lists
@@ -122,8 +122,8 @@ local sortPokemonToBox = {
 function pokeball()
 	game:GetService("ReplicatedStorage").REvents.Pokemon.catchPokemon:InvokeServer(pokemon, ball)
 end
-function catch()
-	game:GetService("ReplicatedStorage").REvents.PC.ParentChange:InvokeServer(pokemon, game:GetService("Players").LocalPlayer.PC:FindFirstChild("Box " .. tostring(boxNormalSkins)))
+function catch(boxnumber)
+	game:GetService("ReplicatedStorage").REvents.PC.ParentChange:InvokeServer(pokemon, game:GetService("Players").LocalPlayer.PC:FindFirstChild("Box " .. tostring(boxnumber)))
 end
 function pokedex()
 	game:GetService("ReplicatedStorage").REvents.Pokemon.caughtPokedex:FireServer(pokemonName)
@@ -228,7 +228,7 @@ alwaysCatchLegendarySelectDropdown:SetValue(alwaysCatch)
 
 local selectBallDropdown = Tabs.Sniper:AddDropdown("Dropdown3", {
 	Title = "Ball to use when catching:",
-	Values = {"Pokeball", "Great Ball", "Ultra Ball", "Master Ball"}
+	Values = {"Great Ball", "Ultra Ball", "Master Ball"}
 })
 selectBallDropdown:SetValue("Ultra Ball")
 
@@ -254,8 +254,8 @@ Tabs.Sniper:AddButton({
 					game:GetService("ReplicatedStorage").FindPokemon:InvokeServer("WildGrass")
 				until #game:GetService("Players").LocalPlayer.OppPokemon:GetChildren() > 0
 
-				pokemon = game:GetService("Players").LocalPlayer.OppPokemon:GetChildren()[1]
-				pokemonName = pokemon.Name
+				local pokemon = game:GetService("Players").LocalPlayer.OppPokemon:GetChildren()[1]
+				local pokemonName = pokemon.Name
 				ball = selectBallDropdown.Values[selectBallDropdown:GetActiveValues()]
 
 				local catchlegendaries = {}
@@ -268,7 +268,7 @@ Tabs.Sniper:AddButton({
 				end
 
 				if table.find(catchlegendaries, pokemonName) then
-					boxToAdd = unknownBox
+					local boxToAdd = unknownBox
 					if catchSkins and pokemon:FindFirstChild("Skin") then
 						print(pokemonName .. " WITH SKIN found!")
 						boxToAdd = boxSkinnedLegendaries
@@ -286,7 +286,7 @@ Tabs.Sniper:AddButton({
 
 					task.spawn(itemstrip)
 					task.spawn(pokeball)
-					task.spawn(catch)
+					task.spawn(catch(boxToAdd))
 					task.spawn(pokedex)
 
 				elseif catchSkins and pokemon:FindFirstChild("Skin") then
@@ -294,7 +294,7 @@ Tabs.Sniper:AddButton({
 
 					task.spawn(itemstrip)
 					task.spawn(pokeball)
-					task.spawn(catch)
+					task.spawn(catch(boxNormalSkins))
 					task.spawn(pokedex)
 
 				elseif stripItems and pokemon:WaitForChild("HeldItem").Value ~= "" then
