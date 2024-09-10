@@ -11,7 +11,7 @@ local unknownBox = 2 -- Box to add to if pokemon is not listed or one time only
 local boxNormalSkins = 3 -- Box to add caught skins to (remember to move them!)
 local boxSkinnedLegendaries = 4 -- Box to add caught skins from legendaries to (remember to move them!)
 local pokemon
-local pokemonname
+local pokemonName
 local boxToAdd
 local ball
 -- Long lists
@@ -254,8 +254,8 @@ Tabs.Sniper:AddButton({
 					game:GetService("ReplicatedStorage").FindPokemon:InvokeServer("WildGrass")
 				until #game:GetService("Players").LocalPlayer.OppPokemon:GetChildren() > 0
 
-				local pokemon = game:GetService("Players").LocalPlayer.OppPokemon:GetChildren()[1]
-				local pokemonName = pokemon.Name
+				pokemon = game:GetService("Players").LocalPlayer.OppPokemon:GetChildren()[1]
+				pokemonName = pokemon.Name
 				ball = selectBallDropdown.Values[selectBallDropdown:GetActiveValues()]
 
 				local catchlegendaries = {}
