@@ -286,7 +286,7 @@ Tabs.Sniper:AddButton({
 
 					task.spawn(itemstrip)
 					task.spawn(pokeball)
-					task.spawn(catch(boxToAdd))
+					catch(boxToAdd)
 					task.spawn(pokedex)
 
 				elseif catchSkins and pokemon:FindFirstChild("Skin") then
@@ -294,7 +294,7 @@ Tabs.Sniper:AddButton({
 
 					task.spawn(itemstrip)
 					task.spawn(pokeball)
-					task.spawn(catch(boxNormalSkins))
+					catch(boxNormalSkins)
 					task.spawn(pokedex)
 
 				elseif stripItems and pokemon:WaitForChild("HeldItem").Value ~= "" then
