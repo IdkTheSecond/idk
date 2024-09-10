@@ -10,7 +10,9 @@ local sortPokemonToSpecificBoxOffset = 4 -- How many boxes you want to keep free
 local unknownBox = 2 -- Box to add to if pokemon is not listed or one time only
 local boxNormalSkins = 3 -- Box to add caught skins to (remember to move them!)
 local boxSkinnedLegendaries = 4 -- Box to add caught skins from legendaries to (remember to move them!)
-
+local pokemon
+local pokemonname
+local boxToAdd
 -- Long lists
 local snipeAreas = {}
 snipeAreas["Mausoleum Of Origins"] = {CFrame.new(-669.0263671875, 75.08966827392578, -4704.48193359375), {"Lugia", "Zekrom", "Reshiram"}}
@@ -43,96 +45,97 @@ local alwaysCatch = {
 	"Groudon", "Kyogre"} -- Random spawns
 -- Groudon and Kyogre require Rayquaza in party
 
-local sortPokemonToBox = {}
-sortPokemonToBox.Articuno = 1
-sortPokemonToBox.Zapdos = 1
-sortPokemonToBox.Moltres = 1
+local sortPokemonToBox = {
+	Articuno = 1,
+	Zapdos = 1,
+	Moltres = 1,
+	Mewtwo = 2,
+	Dialga = 3,
+	Palkia = 3,
+	Giratina = 3,
+	Kyurem = 4,
+	Zekrom = 4,
+	Reshiram = 4,
+	Rayquaza = 5,
+	Kyogre = 5,
+	Groudon = 5,
+	Regigigas = 6,
+	Regice = 6,
+	Registeel = 6,
+	Regirock = 6,
+	Regidrago = 6,
+	Regieleki = 6,
+	Manaphy = 7,
+	Phione = 7,
+	Xerneas = 8,
+	Yveltal = 8,
+	Zygarde = 8,
+	Darkrai = 9,
+	Cresselia = 9,
+	Raikou = 10,
+	Entei = 10,
+	Suicune = 10,
+	Lugia = 11,
+	["Ho-Oh"] = 11,
+	Keldeo = 12,
+	Cobalion = 12,
+	Virizion = 12,
+	Terrakion = 12,
+	Latias = 13,
+	Latios = 13,
+	Thundurus = 14,
+	Tornadus = 14,
+	Landorus = 14,
+	["Tapu Lele"] = 15,
+	["Tapu Bulu"] = 15,
+	["Tapu Fini"] = 15,
+	["Tapu Koko"] = 15,
+	["Uxie"] = 16,
+	["Azelf"] = 16,
+	["Mesprit"] = 16,
+	Cosmog = 17,
+	Cosmoem = 17,
+	Solgaleo = 17,
+	Lunala = 17,
+	Necrozma = 17,
+	Zacian = 18,
+	Zamazenta = 18,
+	Celebi = 19,
+	Jirachi = 19,
+	Deoxys = 19,
+	Heatran = 19,
+	Shaymin = 19,
+	["Type: Null"] = 19,
+	Silvally = 19,
+	Victini = 19,
+	Meloetta = 19,
+	Volcanion = 19,
+	Marshadow = 19,
+	Zeraora = 19,
+	Zarude = 19,
+	Meltan = 20,
+	Melmetal = 20
+}
 
-sortPokemonToBox.Mewtwo = 2
-
-sortPokemonToBox.Dialga = 3
-sortPokemonToBox.Palkia = 3
-sortPokemonToBox.Giratina = 3
-
-sortPokemonToBox.Kyurem = 4
-sortPokemonToBox.Zekrom = 4
-sortPokemonToBox.Reshiram = 4
-
-sortPokemonToBox.Rayquaza = 5
-sortPokemonToBox.Kyogre = 5
-sortPokemonToBox.Groudon = 5
-
-sortPokemonToBox.Regigigas = 6
-sortPokemonToBox.Regice = 6
-sortPokemonToBox.Registeel = 6
-sortPokemonToBox.Regirock = 6
-sortPokemonToBox.Regidrago = 6
-sortPokemonToBox.Regieleki = 6
-
-sortPokemonToBox.Manaphy = 7
-sortPokemonToBox.Phione = 7
-
-sortPokemonToBox.Xerneas = 8
-sortPokemonToBox.Yveltal = 8
-sortPokemonToBox.Zygarde = 8
-
-sortPokemonToBox.Darkrai = 9
-sortPokemonToBox.Cresselia = 9
-
-sortPokemonToBox.Raikou = 10
-sortPokemonToBox.Entei = 10
-sortPokemonToBox.Suicune = 10
-
-sortPokemonToBox.Lugia = 11
-sortPokemonToBox["Ho-Oh"] = 11
-
-sortPokemonToBox.Keldeo = 12
-sortPokemonToBox.Cobalion = 12
-sortPokemonToBox.Virizion = 12
-sortPokemonToBox.Terrakion = 12
-
-sortPokemonToBox.Latias = 13
-sortPokemonToBox.Latios = 13
-
-sortPokemonToBox.Thundurus = 14
-sortPokemonToBox.Tornadus = 14
-sortPokemonToBox.Landorus = 14
-
-sortPokemonToBox["Tapu Lele"] = 15
-sortPokemonToBox["Tapu Bulu"] = 15
-sortPokemonToBox["Tapu Fini"] = 15
-sortPokemonToBox["Tapu Koko"] = 15
-
-sortPokemonToBox["Uxie"] = 16
-sortPokemonToBox["Azelf"] = 16
-sortPokemonToBox["Mesprit"] = 16
-
-sortPokemonToBox.Cosmog = 17
-sortPokemonToBox.Cosmoem = 17
-sortPokemonToBox.Solgaleo = 17
-sortPokemonToBox.Lunala = 17
-sortPokemonToBox.Necrozma = 17
-
-sortPokemonToBox.Zacian = 18
-sortPokemonToBox.Zamazenta = 18
-
--- Others
-sortPokemonToBox.Celebi = 19
-sortPokemonToBox.Jirachi = 19
-sortPokemonToBox.Deoxys = 19
-sortPokemonToBox.Heatran = 19
-sortPokemonToBox.Shaymin = 19
-sortPokemonToBox["Type: Null"] = 19
-sortPokemonToBox.Silvally = 19
-sortPokemonToBox.Victini = 19
-sortPokemonToBox.Meloetta = 19
-sortPokemonToBox.Volcanion = 19
-sortPokemonToBox.Marshadow = 19
-sortPokemonToBox.Zeraora = 19
-sortPokemonToBox.Zarude = 19
-
-sortPokemonToBox.Meltan = 20
-sortPokemonToBox.Melmetal = 20
+---
+function pokeball()
+	game:GetService("ReplicatedStorage").REvents.Pokemon.catchPokemon:InvokeServer(pokemon,"Ultra Ball")
+end
+function catch()
+	game:GetService("ReplicatedStorage").REvents.PC.ParentChange:InvokeServer(pokemon,game:GetService("Players").LocalPlayer.PC:FindFirstChild("Box " .. tostring(boxNormalSkins)))
+end
+function pokedex()
+	game:GetService("ReplicatedStorage").REvents.Pokemon.caughtPokedex:FireServer(pokemonName)
+end
+function itemstrip()
+	if stripItems then
+		if pokemon.HeldItem.Value ~= "" then
+			game:GetService("ReplicatedStorage").REvents.Pokemon.HeldItem:InvokeServer(pokemon,"")
+		end
+	end
+end
+	
+---
 
 --// Hub \\--
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))();
@@ -217,11 +220,7 @@ Tabs.Sniper:AddButton({
 			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = snipeAreas[snipeArea][1]
 			repeat
 				repeat
-					local args = {
-						[1] = "WildGrass"
-					}
-
-					game:GetService("ReplicatedStorage").FindPokemon:InvokeServer(unpack(args))
+					game:GetService("ReplicatedStorage").FindPokemon:InvokeServer("WildGrass")
 				until #game:GetService("Players").LocalPlayer.OppPokemon:GetChildren() > 0
 
 				local pokemon = game:GetService("Players").LocalPlayer.OppPokemon:GetChildren()[1]
@@ -253,145 +252,30 @@ Tabs.Sniper:AddButton({
 						end
 					end
 
-					local args = {
-						[1] = pokemon,
-						[2] = "Ultra Ball"
-					}
-
-					game:GetService("ReplicatedStorage").REvents.Pokemon.catchPokemon:InvokeServer(unpack(args))
-
-					-- Change parent
-					local args = {
-						[1] = game:GetService("ReplicatedStorage").TempS[pokemonName],
-						[2] = game:GetService("Players").LocalPlayer.PC:FindFirstChild("Box " .. tostring(boxToAdd))
-					}
-
-					game:GetService("ReplicatedStorage").REvents.PC.ParentChange:InvokeServer(unpack(args))
-
-					-- Pokedex
-					local args = {
-						[1] = pokemonName
-					}
-
-					game:GetService("ReplicatedStorage").REvents.Pokemon.caughtPokedex:FireServer(unpack(args))
-
-					-- Idk probably security
-					local args = {
-						[1] = game:GetService("Players").LocalPlayer.PC:FindFirstChild("Box " .. tostring(boxToAdd))[pokemonName],
-						[2] = "Ultra Ball"
-					}
-
-					game:GetService("ReplicatedStorage").REvents.Pokemon.Caughter:InvokeServer(unpack(args))
-
-					-- Strip item
-					if stripItems then
-						for _, child in pairs(game:GetService("Players").LocalPlayer.PC:FindFirstChild("Box " .. tostring(boxToAdd)):GetChildren()) do
-							if child.Name == pokemonName and child.HeldItem.Value ~= "" then
-								local args = {
-									[1] = game:GetService("Players").LocalPlayer.PC:FindFirstChild("Box " .. tostring(boxToAdd))[pokemonName],
-									[2] = ""
-								}
-
-								game:GetService("ReplicatedStorage").REvents.Pokemon.HeldItem:InvokeServer(unpack(args))
-							end
-						end
-					end
+					task.spawn(itemstrip)
+					task.spawn(pokeball)
+					task.spawn(catch)
+					task.spawn(pokedex)
+						
 				elseif catchSkins and pokemon:FindFirstChild("Skin") then
 					print(pokemonName .. " WITH SKIN found!")
 
-					local args = {
-						[1] = pokemon,
-						[2] = "Ultra Ball"
-					}
+					task.spawn(itemstrip)
+					task.spawn(pokeball)
+					task.spawn(catch)
+					task.spawn(pokedex)
 
-					game:GetService("ReplicatedStorage").REvents.Pokemon.catchPokemon:InvokeServer(unpack(args))
-
-					-- Change parent
-					local args = {
-						[1] = game:GetService("ReplicatedStorage").TempS[pokemonName],
-						[2] = game:GetService("Players").LocalPlayer.PC:FindFirstChild("Box " .. tostring(boxNormalSkins))
-					}
-
-					game:GetService("ReplicatedStorage").REvents.PC.ParentChange:InvokeServer(unpack(args))
-
-					-- Pokedex
-					local args = {
-						[1] = pokemonName
-					}
-
-					game:GetService("ReplicatedStorage").REvents.Pokemon.caughtPokedex:FireServer(unpack(args))
-
-					-- Idk probably security
-					local args = {
-						[1] = game:GetService("Players").LocalPlayer.PC:FindFirstChild("Box " .. tostring(boxNormalSkins))[pokemonName],
-						[2] = "Ultra Ball"
-					}
-
-					game:GetService("ReplicatedStorage").REvents.Pokemon.Caughter:InvokeServer(unpack(args))
-
-					-- Strip item
-					if stripItems then
-						for _, child in pairs(game:GetService("Players").LocalPlayer.PC:FindFirstChild("Box " .. tostring(boxNormalSkins)):GetChildren()) do
-							if child.Name == pokemonName and child.HeldItem.Value ~= "" then
-								local args = {
-									[1] = game:GetService("Players").LocalPlayer.PC:FindFirstChild("Box " .. tostring(boxNormalSkins))[pokemonName],
-									[2] = ""
-								}
-
-								game:GetService("ReplicatedStorage").REvents.Pokemon.HeldItem:InvokeServer(unpack(args))
-							end
-						end
-					end
 				elseif stripItems and pokemon:WaitForChild("HeldItem").Value ~= "" then
 					print(pokemonName .. " WITH ITEM found! Item: " .. pokemon.HeldItem.Value)
-					-- Box doesn't matter cuz it gets deleted
-
-					local args = {
-						[1] = pokemon,
-						[2] = "Ultra Ball"
-					}
-
-					game:GetService("ReplicatedStorage").REvents.Pokemon.catchPokemon:InvokeServer(unpack(args))
-
-					-- Change parent
-					local args = {
-						[1] = game:GetService("ReplicatedStorage").TempS[pokemonName],
-						[2] = game:GetService("Players").LocalPlayer.PC:FindFirstChild("Box " .. tostring(1))
-					}
-
-					game:GetService("ReplicatedStorage").REvents.PC.ParentChange:InvokeServer(unpack(args))
-
-					-- Pokedex
-					local args = {
-						[1] = pokemonName
-					}
-
-					game:GetService("ReplicatedStorage").REvents.Pokemon.caughtPokedex:FireServer(unpack(args))
-
-					-- Idk probably security
-					local args = {
-						[1] = game:GetService("Players").LocalPlayer.PC:FindFirstChild("Box " .. tostring(1))[pokemonName],
-						[2] = "Ultra Ball"
-					}
-
-					game:GetService("ReplicatedStorage").REvents.Pokemon.Caughter:InvokeServer(unpack(args))
-
-					-- Strip item
-					local args = {
-						[1] = game:GetService("Players").LocalPlayer.PC:FindFirstChild("Box " .. tostring(1))[pokemonName],
-						[2] = ""
-					}
-
-					game:GetService("ReplicatedStorage").REvents.Pokemon.HeldItem:InvokeServer(unpack(args))
-
-
-					-- Delete out of box
-					game:GetService("ReplicatedStorage").REvents.PC.Release:FireServer(game:GetService("Players").LocalPlayer.PC:FindFirstChild("Box " .. tostring(1))[pokemonName])
+						
+					task.spawn(itemstrip)
+					game:GetService("ReplicatedStorage").REvents.PC.Release:FireServer(game:GetService("Players").LocalPlayer.OppPokemon:GetChildren()[1])
+						
 				else
 					--print("fail: " .. pokemonName)
+					game:GetService("ReplicatedStorage").REvents.PC.Release:FireServer(game:GetService("Players").LocalPlayer.OppPokemon:GetChildren()[1])
 				end
 
-				game:GetService("ReplicatedStorage").REvents.PC.Release:FireServer(game:GetService("Players").LocalPlayer.OppPokemon:GetChildren()[1])
 			until sniping ~= true
 		end
 	end
