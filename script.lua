@@ -2,6 +2,7 @@
 local stripItems = true
 local catchSkins = true
 local sniping = false
+local snipeArea = ""
 
 local sortPokemonToSpecificBox = true -- Sorts each pokemon type to it's own box based on lore
 local sortPokemonToSpecificBoxOffset = 4 -- How many boxes you want to keep free
@@ -183,6 +184,8 @@ local legendarySelectDropdown = Tabs.Sniper:AddDropdown("Dropdown", {
 areaDropdown:OnChanged(function(value)
 	legendarySelectDropdown.Values = snipeAreas[value][2]
 	legendarySelectDropdown:SetValue(snipeAreas[value][2])
+	
+	snipeArea = value
 end)
 
 local alwaysCatchLegendarySelectDropdown = Tabs.Sniper:AddDropdown("Dropdown2", {
@@ -210,7 +213,6 @@ Tabs.Sniper:AddButton({
 	Callback = function()
 		sniping = not sniping
 		if sniping == true then
-			local snipeArea = areaDropdown.Values[areaDropdown:GetActiveValues()]
 			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = snipeAreas[snipeArea][1]
 			repeat
 				repeat
