@@ -257,6 +257,7 @@ Tabs.Sniper:AddButton({
 		if sniping == true then
 			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = snipeAreas[snipeArea][1]
 			repeat
+				wait(1)
 				repeat
 					game:GetService("ReplicatedStorage").FindPokemon:InvokeServer("WildGrass")
 				until #game:GetService("Players").LocalPlayer.OppPokemon:GetChildren() > 0
