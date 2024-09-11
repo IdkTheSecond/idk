@@ -14,7 +14,8 @@ local pokemon
 local pokemonName
 local boxToAdd
 local ball
--- Long lists
+
+--// Long lists \\--
 local snipeAreas = {}
 snipeAreas["Mausoleum Of Origins"] = {CFrame.new(-669.0263671875, 75.08966827392578, -4704.48193359375), {"Lugia", "Zekrom", "Reshiram"}}
 -- Zekrom requires Kyurem + electric type in party, Reshiram requires Kyurem + fire type in party
