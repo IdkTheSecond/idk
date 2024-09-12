@@ -40,7 +40,6 @@ local alwaysCatch = {
 	"Celebi",
 	"Darkrai",
 	"Mewtwo", "Mew",
-	-- Mew requires Mew gamepass
 	"Latios", "Latias",
 	"Cobalion", "Virizion", "Terrakion",
 	-- These three require Keldeo in party
@@ -52,6 +51,7 @@ local sortPokemonToBox = {
 	Zapdos = 1,
 	Moltres = 1,
 	Mewtwo = 2,
+	Mew = 2,
 	Dialga = 3,
 	Palkia = 3,
 	Giratina = 3,
