@@ -137,10 +137,10 @@ function itemstrip()
 	end
 end
 function pokeballs()
-	game:GetService("ReplicatedStorage").REvents.Pokemon.Caughter:InvokeServer(pokemon,ball)
+	--game:GetService("ReplicatedStorage").REvents.Pokemon.Caughter:InvokeServer(pokemon,ball)
 end
 function pokeballcheck()
-	game:GetService("ReplicatedStorage"):WaitForChild("REvents"):WaitForChild("Internal"):WaitForChild("mathCheck"):FireServer(ball)
+	--game:GetService("ReplicatedStorage"):WaitForChild("REvents"):WaitForChild("Internal"):WaitForChild("mathCheck"):FireServer(ball)
 end
 --// Maximize|minimize button \\--
 local fluentFrame = nil
