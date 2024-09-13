@@ -133,9 +133,6 @@ function catch(boxnumber)
 		[1] = "WildGrass"
 	}
 
-	game:GetService("ReplicatedStorage").FindPokemon:InvokeServer(unpack(args))
-	repeat wait() until #game.Players.LocalPlayer.OppPokemon:GetChildren() > 0
-
 	local args = {
 		[1] = pokemon,
 		[2] = "Ultra Ball"
@@ -295,6 +292,7 @@ Tabs.Sniper:AddButton({
 			repeat
 				repeat
 					game:GetService("ReplicatedStorage").FindPokemon:InvokeServer("WildGrass")
+					wait()
 				until #game:GetService("Players").LocalPlayer.OppPokemon:GetChildren() > 0
 
 				pokemon = game:GetService("Players").LocalPlayer.OppPokemon:GetChildren()[1]
