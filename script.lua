@@ -121,13 +121,43 @@ local sortPokemonToBox = {
 
 --// Functions \\--
 function pokeball()
-	game:GetService("ReplicatedStorage").REvents.Pokemon.catchPokemon:InvokeServer(pokemon, ball)
+	--game:GetService("ReplicatedStorage").REvents.Pokemon.catchPokemon:InvokeServer(pokemon, ball)
 end
 function catch(boxnumber)
-	game:GetService("ReplicatedStorage").REvents.PC.ParentChange:InvokeServer(pokemon, game:GetService("Players").LocalPlayer.PC:FindFirstChild("Box " .. tostring(boxnumber)))
+	--game:GetService("ReplicatedStorage").REvents.PC.ParentChange:InvokeServer(pokemon, game:GetService("Players").LocalPlayer.PC:FindFirstChild("Box " .. tostring(boxnumber)))
+	local args = {
+		[1] = "WildGrass"
+	}
+
+	game:GetService("ReplicatedStorage").FindPokemon:InvokeServer(unpack(args))
+	repeat wait() until #game.Players.LocalPlayer.OppPokemon:GetChildren() > 0
+
+	local args = {
+		[1] = pokemon,
+		[2] = "Ultra Ball"
+	}
+
+	game:GetService("ReplicatedStorage").REvents.Pokemon.catchPokemon:InvokeServer(unpack(args))
+
+	game:GetService("ReplicatedStorage").REvents.PC.Release:FireServer(game:GetService("Players").LocalPlayer.OppPokemon:GetChildren()[1])
+
+	-- Change parent
+	local args = {
+		[1] = pokemon,
+		[2] = game:GetService("Players").LocalPlayer.PC:FindFirstChild("Box " .. tostring(boxnumber))
+	}
+
+	game:GetService("ReplicatedStorage").REvents.PC.ParentChange:InvokeServer(unpack(args))
+
+	-- Pokedex
+	local args = {
+		[1] = pokemonName
+	}
+
+	game:GetService("ReplicatedStorage").REvents.Pokemon.caughtPokedex:FireServer(unpack(args))
 end
 function pokedex()
-	game:GetService("ReplicatedStorage").REvents.Pokemon.caughtPokedex:FireServer(pokemonName)
+	--game:GetService("ReplicatedStorage").REvents.Pokemon.caughtPokedex:FireServer(pokemonName)
 end
 function itemstrip()
 	if stripItems then
@@ -165,7 +195,7 @@ uicorner.CornerRadius = UDim.new(.2, 0)
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))();
 toclipboard("https://discord.gg/asRy5w8Vg8")
 Fluent:Notify({
-	Title = "Welcome",
+	Title = "Welcome:",
 	Content = "Thanks for using INSANE HUB!",
 	SubContent = "Join discord at: .gg/asRy5w8Vg8, copied to clipboard.",
 	Duration = 5
