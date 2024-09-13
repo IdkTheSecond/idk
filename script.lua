@@ -239,6 +239,23 @@ Tabs.Main:AddButton({
 	end
 });
 
+Tabs.Main:AddButton({
+	Title = "Catch opponent",
+	Description = "Insta-catches opponent pokemon, only works for wild pokemon, run away after using and check box 1/party.",
+	Callback = function()
+		pokemon = game:GetService("Players").LocalPlayer.OppPokemon:GetChildren()[1]
+		pokemonName = pokemon.Name
+		ball = "Ultra Ball"
+		
+		task.spawn(itemstrip)
+		task.spawn(pokeballcheck)
+		task.spawn(pokeball)
+		catch(1)
+		task.spawn(pokedex)
+		task.spawn(pokeballs)
+	end
+});
+
 -- Sniper
 local areaDropdown = Tabs.Sniper:AddDropdown("Dropdown",{
 	Title = "Select area:",
@@ -401,7 +418,7 @@ Tabs.Shop:AddButton({
 })
 
 -- Report bug
-local reportInput = Tabs.Report:AddInput("Input1", {
+local reportInput = Tabs.Report:AddInput("ReportInput", {
 	Title = "Bug:",
 	Default = "",
 	Placeholder = "Describe your bug.",
