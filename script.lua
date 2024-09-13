@@ -268,9 +268,9 @@ local items = {
 }
 Tabs.Main:AddButton({
 	Title = "Get Robux items",
-	Description = "Get Robux items.",
+	Description = "Get free Mega Stones.",
 	Callback = function()
-		local event = game.ReplicatedStorage.REvents.Pokemon.ioome
+		local event = game.ReplicatedStorage.REvents.Pokemon.ioome:InvokeServer("Aerodactylite")
 		for _, item in pairs(items) do
 			event:InvokeServer(item)
 		end
