@@ -239,6 +239,7 @@ Tabs.Main:AddButton({
 	end
 });
 
+--[[
 Tabs.Main:AddButton({
 	Title = "Catch opponent",
 	Description = "Insta-catches opponent pokemon, only works for wild pokemon, run away after using and check box 1/party.",
@@ -253,6 +254,26 @@ Tabs.Main:AddButton({
 		catch(1)
 		task.spawn(pokedex)
 		task.spawn(pokeballs)
+	end
+});
+]]
+
+local items = {
+	"Venusaurite",
+	"Charizardite X",
+	"Charizardite Y",
+	"Blastoisinite",
+	"Mewtwonite X",
+	"Mewtwonite Y",
+}
+Tabs.Main:AddButton({
+	Title = "Get Robux items",
+	Description = "Get Robux items.",
+	Callback = function()
+		local event = game.ReplicatedStorage.REvents.Pokemon.ioome
+		for _, item in pairs(items) do
+			event:InvokeServer(item)
+		end
 	end
 });
 
