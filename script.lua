@@ -134,7 +134,7 @@ function catch(boxnumber)
 
 	local args = {
 		[1] = pokemon,
-		[2] = "Ultra Ball"
+		[2] = ball
 	}
 
 	game:GetService("ReplicatedStorage").REvents.Pokemon.catchPokemon:InvokeServer(unpack(args))
