@@ -267,11 +267,13 @@ local alwaysCatchLegendarySelectDropdown = Tabs.Sniper:AddDropdown("Dropdown2", 
 alwaysCatchLegendarySelectDropdown.Values = alwaysCatch
 alwaysCatchLegendarySelectDropdown:SetValue(alwaysCatch)
 
+--[[
 local selectBallDropdown = Tabs.Sniper:AddDropdown("Dropdown3", {
 	Title = "Ball to use when catching:",
 	Values = {"Great Ball", "Ultra Ball", "Master Ball"}
 })
 selectBallDropdown:SetValue("Ultra Ball")
+]]
 
 local stripItemsToggle = Tabs.Sniper:AddToggle("Toggle1", {Title = "Strip held items from pokemon:", Default = true})
 stripItemsToggle:OnChanged(function(value)
