@@ -229,6 +229,16 @@ Tabs.Main:AddButton({
 	end
 });
 
+Tabs.Main:AddButton({
+	Title = "Instant kill",
+	Description = "Kills all your enemies with 1 attack.",
+	Callback = function()
+		for _, v in pairs(game:GetService("Players").LocalPlayer.OppPokemon:GetChildren()) do
+			v.CurrentHP.Value = 0
+		end
+	end
+});
+
 -- Sniper
 local areaDropdown = Tabs.Sniper:AddDropdown("Dropdown",{
 	Title = "Select area:",
@@ -374,7 +384,7 @@ local cashInput = Tabs.Shop:AddInput("CashInput", {
 	Numeric = true,
 	Finished = false,
 	Callback = function(value)
-		
+
 	end
 })
 
@@ -398,7 +408,7 @@ local reportInput = Tabs.Report:AddInput("Input1", {
 	Numeric = false,
 	Finished = false,
 	Callback = function(value)
-		
+
 	end
 })
 
