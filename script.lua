@@ -134,7 +134,7 @@ function catch(boxnumber)
 
 	local args = {
 		[1] = pokemon,
-		[2] = ball
+		[2] = "Ultra Ball"
 	}
 
 	game:GetService("ReplicatedStorage").REvents.Pokemon.catchPokemon:InvokeServer(unpack(args))
@@ -293,7 +293,8 @@ Tabs.Sniper:AddButton({
 
 				pokemon = game:GetService("Players").LocalPlayer.OppPokemon:GetChildren()[1]
 				pokemonName = pokemon.Name
-				ball = selectBallDropdown.Values[selectBallDropdown:GetActiveValues()]
+				--ball = selectBallDropdown.Values[selectBallDropdown:GetActiveValues()]
+				ball = "Ultra Ball"
 
 				local catchlegendaries = {}
 				for _, num in pairs(legendarySelectDropdown:GetActiveValues()) do
