@@ -215,6 +215,7 @@ local Window = Fluent:CreateWindow({
 local Tabs = {
 	Main = Window:AddTab({Title = "Main", Icon = ""}),
 	Sniper = Window:AddTab({Title = "Sniper", Icon = ""}),
+	Shop = Window:AddTab({Title = "Shop", Icon = ""}),
 	Report = Window:AddTab({Title = "Report Bug", Icon = ""})
 };
 Window:SelectTab(1);
@@ -365,14 +366,38 @@ for _, gui in pairs(game.CoreGui:GetChildren()) do
 	end
 end
 
+-- Shop
+local cashInput = Tabs.Shop:AddInput("CashInput", {
+	Title = "Enter cash amount:",
+	Default = "",
+	Placeholder = "e.g. 1000000",
+	Numeric = true,
+	Finished = false,
+	Callback = function(value)
+		
+	end
+})
+
+Tabs.Shop:AddButton({
+	Title = "Add cash",
+	Description = "Adds the current selected amount of cash",
+	Callback = function()
+		local cashevent = game:GetService("ReplicatedStorage").REvents.Pokemon.jfd
+		local amount = math.ceil(tonumber(cashInput.Value)/70000)
+		for i = 1, amount do
+			cashevent:InvokeServer(workspace.Trainers.Blaine)
+		end
+	end,
+})
+
 -- Report bug
 local reportInput = Tabs.Report:AddInput("Input1", {
-	Title = "Input",
+	Title = "Bug:",
 	Default = "",
-	Placeholder = "Add the issue you're having.",
+	Placeholder = "Describe your bug.",
 	Numeric = false,
 	Finished = false,
-	Callback = function(Value)
+	Callback = function(value)
 		
 	end
 })
