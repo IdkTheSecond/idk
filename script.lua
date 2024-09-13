@@ -1,4 +1,8 @@
 -- DOCS: https://github.com/dawid-scripts/Fluent/
+--// Security \\--
+game:GetService("ReplicatedStorage").REvents.Internal.Compare:InvokeServer("Ultra Ball", 1, "Pokeball")
+
+
 --// Variables \\--
 local stripItems = true
 local catchSkins = true
