@@ -130,20 +130,46 @@ local sortPokemonToBox = {
 
 --// Functions \\--
 function pokeball()
-	replicatedstorage.REvents.Pokemon.catchPokemon:InvokeServer(pokemon,"Ultra Ball")
+	--game:GetService("ReplicatedStorage").REvents.Pokemon.catchPokemon:InvokeServer(pokemon, ball)
 end
 function catch(boxnumber)
-	replicatedstorage.REvents.PC.ParentChange:InvokeServer(pokemon, Player.PC:FindFirstChild("Box " .. tostring(boxnumber)))
+	--game:GetService("ReplicatedStorage").REvents.PC.ParentChange:InvokeServer(pokemon, game:GetService("Players").LocalPlayer.PC:FindFirstChild("Box " .. tostring(boxnumber)))
+	local args = {
+		[1] = "WildGrass"
+	}
+	local args = {
+		[1] = pokemon,
+		[2] = "Ultra Ball"
+	}
+	game:GetService("ReplicatedStorage").REvents.Pokemon.catchPokemon:InvokeServer(unpack(args))
+	game:GetService("ReplicatedStorage").REvents.PC.Release:FireServer(game:GetService("Players").LocalPlayer.OppPokemon:GetChildren()[1])
+	-- Change parent
+	local args = {
+		[1] = pokemon,
+		[2] = game:GetService("Players").LocalPlayer.PC:FindFirstChild("Box " .. tostring(boxnumber))
+	}
+	game:GetService("ReplicatedStorage").REvents.PC.ParentChange:InvokeServer(unpack(args))
+	-- Pokedex
+	local args = {
+		[1] = pokemonName
+	}
+	game:GetService("ReplicatedStorage").REvents.Pokemon.caughtPokedex:FireServer(unpack(args))
 end
 function pokedex()
-	replicatedstorage.REvents.Pokemon.caughtPokedex:FireServer(pokemonName)
+	--game:GetService("ReplicatedStorage").REvents.Pokemon.caughtPokedex:FireServer(pokemonName)
 end
 function itemstrip()
 	if stripItems then
 		if pokemon.HeldItem.Value ~= "" then
-			replicatedstorage.REvents.Pokemon.HeldItem:InvokeServer(pokemon,"")
+			game:GetService("ReplicatedStorage").REvents.Pokemon.HeldItem:InvokeServer(pokemon,"")
 		end
 	end
+end
+function pokeballs()
+	--game:GetService("ReplicatedStorage").REvents.Pokemon.Caughter:InvokeServer(pokemon,ball)
+end
+function pokeballcheck()
+	--game:GetService("ReplicatedStorage"):WaitForChild("REvents"):WaitForChild("Internal"):WaitForChild("mathCheck"):FireServer(ball)
 end
 
 --// Maximize|minimize button \\--
