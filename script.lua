@@ -18,6 +18,7 @@ local pokemon
 local pokemonName
 local boxToAdd
 local ball
+local lvl
 
 --// Long lists \\--
 local snipeAreas = {}
@@ -125,40 +126,13 @@ local sortPokemonToBox = {
 
 --// Functions \\--
 function pokeball()
-	--game:GetService("ReplicatedStorage").REvents.Pokemon.catchPokemon:InvokeServer(pokemon, ball)
+	game:GetService("ReplicatedStorage").REvents.Pokemon.catchPokemon:InvokeServer(pokemon,"Ultra Ball")
 end
 function catch(boxnumber)
-	--game:GetService("ReplicatedStorage").REvents.PC.ParentChange:InvokeServer(pokemon, game:GetService("Players").LocalPlayer.PC:FindFirstChild("Box " .. tostring(boxnumber)))
-	local args = {
-		[1] = "WildGrass"
-	}
-
-	local args = {
-		[1] = pokemon,
-		[2] = "Ultra Ball"
-	}
-
-	game:GetService("ReplicatedStorage").REvents.Pokemon.catchPokemon:InvokeServer(unpack(args))
-
-	game:GetService("ReplicatedStorage").REvents.PC.Release:FireServer(game:GetService("Players").LocalPlayer.OppPokemon:GetChildren()[1])
-
-	-- Change parent
-	local args = {
-		[1] = pokemon,
-		[2] = game:GetService("Players").LocalPlayer.PC:FindFirstChild("Box " .. tostring(boxnumber))
-	}
-
-	game:GetService("ReplicatedStorage").REvents.PC.ParentChange:InvokeServer(unpack(args))
-
-	-- Pokedex
-	local args = {
-		[1] = pokemonName
-	}
-
-	game:GetService("ReplicatedStorage").REvents.Pokemon.caughtPokedex:FireServer(unpack(args))
+	game:GetService("ReplicatedStorage").REvents.PC.ParentChange:InvokeServer(pokemon, game:GetService("Players").LocalPlayer.PC:FindFirstChild("Box " .. tostring(boxnumber)))
 end
 function pokedex()
-	--game:GetService("ReplicatedStorage").REvents.Pokemon.caughtPokedex:FireServer(pokemonName)
+	game:GetService("ReplicatedStorage").REvents.Pokemon.caughtPokedex:FireServer(pokemonName)
 end
 function itemstrip()
 	if stripItems then
@@ -167,12 +141,7 @@ function itemstrip()
 		end
 	end
 end
-function pokeballs()
-	--game:GetService("ReplicatedStorage").REvents.Pokemon.Caughter:InvokeServer(pokemon,ball)
-end
-function pokeballcheck()
-	--game:GetService("ReplicatedStorage"):WaitForChild("REvents"):WaitForChild("Internal"):WaitForChild("mathCheck"):FireServer(ball)
-end
+
 --// Maximize|minimize button \\--
 local fluentFrame = nil
 local gui = Instance.new("ScreenGui", game:GetService("CoreGui"))
@@ -410,21 +379,17 @@ Tabs.Sniper:AddButton({
 					end
 
 					task.spawn(itemstrip)
-					task.spawn(pokeballcheck)
 					task.spawn(pokeball)
 					catch(boxToAdd)
 					task.spawn(pokedex)
-					task.spawn(pokeballs)
 
 				elseif catchSkins and pokemon:FindFirstChild("Skin") then
 					print(pokemonName .. " WITH SKIN found!")
 
 					task.spawn(itemstrip)
-					task.spawn(pokeballcheck)
 					task.spawn(pokeball)
 					catch(boxNormalSkins)
 					task.spawn(pokedex)
-					task.spawn(pokeballs)
 
 				elseif stripItems and pokemon:WaitForChild("HeldItem").Value ~= "" then
 					print(pokemonName .. " WITH ITEM found! Item: " .. pokemon.HeldItem.Value)
