@@ -278,6 +278,19 @@ Tabs.Main:AddButton({
 });
 
 Tabs.Main:AddButton({
+	Title = "Get ALL tms",
+	Description = "Literally gives you every tm.",
+	Callback = function()
+		local tbl = {"Rock Tomb", "Swords Dance", "Calm Mind", "Bulk Up", "Protect", "Reflect", "Light Screen", "Roost", "Double Team", "Charge Beam", "Thunderbolt", "Thunder", "Thunder Wave", "Will-O-Wisp", "Flamethrower", "Fire Blast", "Aerial Ace", "Brick Break", "Stone Edge", "Rest", "Toxic", "Ice Beam", "Blizzard", "Psychic", "Earthquake", "Dark Pulse", "Sludge Bomb", "Overheat", "Scald", "Dragon Claw", "Hidden Power", "Shadow Ball", "Zen Headbutt", "Superpower", "X-Scissor", "Explosion", "Signal Beam", "Ice Punch", "Fire Punch", "Thunder Punch", "Drain Punch", "Dragon Pulse", "Energy Ball", "Grass Knot", "Swagger", "Dazzling Gleam", "Power-Up Punch", "Flash Cannon", "Focus Blast", "Rock Polish", "Rock Slide", "Dream Eater", "Giga Drain", "Water Pulse", "Surf", "Waterfall", "Mega Punch", "Psyshock", "Cosmic Power", "Psychic Fangs", "Double Iron Bash", "Yawn"}
+		local Math_upvr = require(game.ReplicatedStorage.Functions.Math)
+		local p = game.Players.LocalPlayer
+		for _, child in pairs(tbl) do
+			Math_upvr:FuncAddItem(child, p.Bag.TMs, 1)
+		end
+	end
+});
+
+Tabs.Main:AddButton({
 	Title = "Hide catch gui",
 	Description = "Hides the catch gui [debugging].",
 	Callback = function()
