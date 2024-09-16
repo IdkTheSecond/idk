@@ -277,6 +277,15 @@ Tabs.Main:AddButton({
 	end
 });
 
+Tabs.Main:AddButton({
+	Title = "Hide catch gui",
+	Description = "Hides the catch gui [debugging].",
+	Callback = function()
+		game.Players.LocalPlayer.PlayerGui.Main.BattleScene.Visible = false
+		game.Players.LocalPlayer.PlayerGui.Main.BlackScreen.Visible = false
+	end
+});
+
 -- Sniper
 local areaDropdown = Tabs.Sniper:AddDropdown("Dropdown",{
 	Title = "Select area:",
