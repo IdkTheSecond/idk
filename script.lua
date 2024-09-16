@@ -291,6 +291,18 @@ Tabs.Main:AddButton({
 });
 
 Tabs.Main:AddButton({
+	Title = "Max out EVs",
+	Description = "Maxes out the EV of every pokemon in your party.",
+	Callback = function()
+		for _,v in pairs(game:GetService("Players").LocalPlayer.PokemonParty:GetChildren()) do
+			for _,i in pairs(v.EV:GetChildren()) do
+				game:GetService("ReplicatedStorage"):WaitForChild("REvents"):WaitForChild("Pokemon"):WaitForChild("EVChange"):InvokeServer(i,100)
+			end
+		end
+	end
+});
+
+Tabs.Main:AddButton({
 	Title = "Hide catch gui",
 	Description = "Hides the catch gui [debugging].",
 	Callback = function()
