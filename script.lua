@@ -1,9 +1,9 @@
 -- DOCS: https://github.com/dawid-scripts/Fluent/
---// Security \\--
-game:GetService("ReplicatedStorage").REvents.Pokemon.jfd:InvokeServer(workspace.Trainers.Blaine)
-game:GetService("ReplicatedStorage").REvents.Internal.Compare:InvokeServer("Ultra Ball", 1, "Pokeball")
 
 --// Variables \\--
+local Players = game:GetService("Players")
+local Player = Players.LocalPlayer
+local replicatedstorage = game:GetService("ReplicatedStorage")
 local stripItems = true
 local catchSkins = true
 local sniping = false
@@ -19,6 +19,10 @@ local pokemonName
 local boxToAdd
 local ball
 local lvl
+
+--// Security \\--
+replicatedstorage.REvents.Pokemon.jfd:InvokeServer(workspace.Trainers.Blaine)
+replicatedstorage.REvents.Internal.Compare:InvokeServer("Ultra Ball", 1, "Pokeball")
 
 --// Long lists \\--
 local snipeAreas = {}
@@ -126,18 +130,18 @@ local sortPokemonToBox = {
 
 --// Functions \\--
 function pokeball()
-	game:GetService("ReplicatedStorage").REvents.Pokemon.catchPokemon:InvokeServer(pokemon,"Ultra Ball")
+	replicatedstorage.REvents.Pokemon.catchPokemon:InvokeServer(pokemon,"Ultra Ball")
 end
 function catch(boxnumber)
-	game:GetService("ReplicatedStorage").REvents.PC.ParentChange:InvokeServer(pokemon, game:GetService("Players").LocalPlayer.PC:FindFirstChild("Box " .. tostring(boxnumber)))
+	replicatedstorage.REvents.PC.ParentChange:InvokeServer(pokemon, Player.PC:FindFirstChild("Box " .. tostring(boxnumber)))
 end
 function pokedex()
-	game:GetService("ReplicatedStorage").REvents.Pokemon.caughtPokedex:FireServer(pokemonName)
+	replicatedstorage.REvents.Pokemon.caughtPokedex:FireServer(pokemonName)
 end
 function itemstrip()
 	if stripItems then
 		if pokemon.HeldItem.Value ~= "" then
-			game:GetService("ReplicatedStorage").REvents.Pokemon.HeldItem:InvokeServer(pokemon,"")
+			replicatedstorage.REvents.Pokemon.HeldItem:InvokeServer(pokemon,"")
 		end
 	end
 end
@@ -194,7 +198,7 @@ Tabs.Main:AddButton({
 	Title = "Heal party",
 	Description = "Heals all pokemon in your party.",
 	Callback = function()
-		game.ReplicatedStorage.REvents.Pokemon.healPokemon:FireServer()
+		replicatedstorage.REvents.Pokemon.healPokemon:FireServer()
 	end
 });
 
@@ -202,7 +206,7 @@ Tabs.Main:AddButton({
 	Title = "Instant kill",
 	Description = "Kills all your enemies with 1 attack.",
 	Callback = function()
-		for _, v in pairs(game:GetService("Players").LocalPlayer.OppPokemon:GetChildren()) do
+		for _, v in pairs(Player.OppPokemon:GetChildren()) do
 			v.CurrentHP.Value = 0
 		end
 	end
@@ -213,7 +217,7 @@ Tabs.Main:AddButton({
 	Title = "Catch opponent",
 	Description = "Insta-catches opponent pokemon, only works for wild pokemon, run away after using and check box 1/party.",
 	Callback = function()
-		pokemon = game:GetService("Players").LocalPlayer.OppPokemon:GetChildren()[1]
+		Player.OppPokemon:GetChildren()[1]
 		pokemonName = pokemon.Name
 		ball = "Ultra Ball"
 		
@@ -239,7 +243,7 @@ Tabs.Main:AddButton({
 	Title = "Get Robux items",
 	Description = "Get free Mega Stones.",
 	Callback = function()
-		local event = game.ReplicatedStorage.REvents.Pokemon.ioome
+		local event = replicatedstorage.REvents.Pokemon.ioome
 		for _, item in pairs(items) do
 			event:InvokeServer(item)
 		end
@@ -251,10 +255,9 @@ Tabs.Main:AddButton({
 	Description = "Literally gives you every tm.",
 	Callback = function()
 		local tbl = {"Rock Tomb", "Swords Dance", "Calm Mind", "Bulk Up", "Protect", "Reflect", "Light Screen", "Roost", "Double Team", "Charge Beam", "Thunderbolt", "Thunder", "Thunder Wave", "Will-O-Wisp", "Flamethrower", "Fire Blast", "Aerial Ace", "Brick Break", "Stone Edge", "Rest", "Toxic", "Ice Beam", "Blizzard", "Psychic", "Earthquake", "Dark Pulse", "Sludge Bomb", "Overheat", "Scald", "Dragon Claw", "Hidden Power", "Shadow Ball", "Zen Headbutt", "Superpower", "X-Scissor", "Explosion", "Signal Beam", "Ice Punch", "Fire Punch", "Thunder Punch", "Drain Punch", "Dragon Pulse", "Energy Ball", "Grass Knot", "Swagger", "Dazzling Gleam", "Power-Up Punch", "Flash Cannon", "Focus Blast", "Rock Polish", "Rock Slide", "Dream Eater", "Giga Drain", "Water Pulse", "Surf", "Waterfall", "Mega Punch", "Psyshock", "Cosmic Power", "Psychic Fangs", "Double Iron Bash", "Yawn"}
-		local Math_upvr = require(game.ReplicatedStorage.Functions.Math)
-		local p = game.Players.LocalPlayer
+		local Math_upvr = require(replicatedstorage.Functions.Math)
 		for _, child in pairs(tbl) do
-			Math_upvr:FuncAddItem(child, p.Bag.TMs, 1)
+			Math_upvr:FuncAddItem(child, Player.Bag.TMs, 1)
 		end
 	end
 });
@@ -263,10 +266,23 @@ Tabs.Main:AddButton({
 	Title = "Max out EVs",
 	Description = "Maxes out the EV of every pokemon in your party.",
 	Callback = function()
-		for _,v in pairs(game:GetService("Players").LocalPlayer.PokemonParty:GetChildren()) do
+		for _,v in pairs(Player.PokemonParty:GetChildren()) do
 			for _,i in pairs(v.EV:GetChildren()) do
-				game:GetService("ReplicatedStorage"):WaitForChild("REvents"):WaitForChild("Pokemon"):WaitForChild("EVChange"):InvokeServer(i,100)
+				replicatedstorage:WaitForChild("REvents"):WaitForChild("Pokemon"):WaitForChild("EVChange"):InvokeServer(i,100)
 			end
+		end
+	end
+});
+
+Tabs.Main:AddButton({
+	Title = "Max lvl",
+	Description = "Maxes out the lvl of every pokemon in your party.",
+	Callback = function()
+		for _,v in pairs(Player.PokemonParty:GetChildren()) do
+		    while v.Lvl.Value < 100 do
+			replicatedstorage:WaitForChild("REvents"):WaitForChild("Internal"):WaitForChild("GetExp"):InvokeServer(v,450000,"Yb58ByaIXKSIbY1qiqpmtqgiGKve5bhyLY3BA8Kp")
+			replicatedstorage:WaitForChild("REvents"):WaitForChild("Pokemon"):WaitForChild("NeoPill"):InvokeServer(v)
+		    end
 		end
 	end
 });
@@ -275,8 +291,8 @@ Tabs.Main:AddButton({
 	Title = "Hide catch gui",
 	Description = "Hides the catch gui [debugging].",
 	Callback = function()
-		game.Players.LocalPlayer.PlayerGui.Main.BattleScene.Visible = false
-		game.Players.LocalPlayer.PlayerGui.Main.BlackScreen.Visible = false
+		Player.PlayerGui.Main.BattleScene.Visible = false
+		Player.PlayerGui.Main.BlackScreen.Visible = false
 	end
 });
 
@@ -343,11 +359,11 @@ Tabs.Sniper:AddButton({
 			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = snipeAreas[snipeArea][1]
 			repeat
 				repeat
-					game:GetService("ReplicatedStorage").FindPokemon:InvokeServer("WildGrass")
+					replicatedstorage.FindPokemon:InvokeServer("WildGrass")
 					wait()
-				until #game:GetService("Players").LocalPlayer.OppPokemon:GetChildren() > 0
+				until #Player.OppPokemon:GetChildren() > 0
 
-				pokemon = game:GetService("Players").LocalPlayer.OppPokemon:GetChildren()[1]
+				pokemon = Player.OppPokemon:GetChildren()[1]
 				pokemonName = pokemon.Name
 				--ball = selectBallDropdown.Values[selectBallDropdown:GetActiveValues()]
 				ball = "Ultra Ball"
@@ -395,11 +411,11 @@ Tabs.Sniper:AddButton({
 					print(pokemonName .. " WITH ITEM found! Item: " .. pokemon.HeldItem.Value)
 
 					task.spawn(itemstrip)
-					game:GetService("ReplicatedStorage").REvents.PC.Release:FireServer(game:GetService("Players").LocalPlayer.OppPokemon:GetChildren()[1])
+					replicatedstorage.REvents.PC.Release:FireServer(game:GetService("Players").LocalPlayer.OppPokemon:GetChildren()[1])
 
 				else
 					--print("fail: " .. pokemonName)
-					game:GetService("ReplicatedStorage").REvents.PC.Release:FireServer(game:GetService("Players").LocalPlayer.OppPokemon:GetChildren()[1])
+					replicatedstorage.REvents.PC.Release:FireServer(game:GetService("Players").LocalPlayer.OppPokemon:GetChildren()[1])
 				end
 
 			until sniping ~= true
@@ -429,7 +445,7 @@ Tabs.Shop:AddButton({
 	Title = "Add cash",
 	Description = "Adds the current selected amount of cash",
 	Callback = function()
-		local cashevent = game:GetService("ReplicatedStorage").REvents.Pokemon.jfd
+		local cashevent = replicatedstorage.REvents.Pokemon.jfd
 		local amount = math.ceil(tonumber(cashInput.Value)/70000)
 		for i = 1, amount do
 			cashevent:InvokeServer(workspace.Trainers.Blaine)
