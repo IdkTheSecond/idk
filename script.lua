@@ -214,6 +214,7 @@ local Window = Fluent:CreateWindow({
 local Tabs = {
 	Main = Window:AddTab({Title = "Main", Icon = ""}),
 	Sniper = Window:AddTab({Title = "Sniper", Icon = ""}),
+	SpawnItems = Window:AddTab({Title = "Spawn Items", Icon = ""}),
 	Shop = Window:AddTab({Title = "Shop", Icon = ""}),
 	Report = Window:AddTab({Title = "Report Bug", Icon = ""})
 };
@@ -257,37 +258,6 @@ Tabs.Main:AddButton({
 });
 ]]
 
-local items = {
-	"Venusaurite",
-	"Charizardite X",
-	"Charizardite Y",
-	"Blastoisinite",
-	"Mewtwonite X",
-	"Mewtwonite Y",
-}
-Tabs.Main:AddButton({
-	Title = "Get Robux items",
-	Description = "Get free Mega Stones.",
-	Callback = function()
-		local event = replicatedstorage.REvents.Pokemon.ioome
-		for _, item in pairs(items) do
-			event:InvokeServer(item)
-		end
-	end
-});
-
-Tabs.Main:AddButton({
-	Title = "Get ALL tms",
-	Description = "Literally gives you every tm.",
-	Callback = function()
-		local tbl = {"Rock Tomb", "Swords Dance", "Calm Mind", "Bulk Up", "Protect", "Reflect", "Light Screen", "Roost", "Double Team", "Charge Beam", "Thunderbolt", "Thunder", "Thunder Wave", "Will-O-Wisp", "Flamethrower", "Fire Blast", "Aerial Ace", "Brick Break", "Stone Edge", "Rest", "Toxic", "Ice Beam", "Blizzard", "Psychic", "Earthquake", "Dark Pulse", "Sludge Bomb", "Overheat", "Scald", "Dragon Claw", "Hidden Power", "Shadow Ball", "Zen Headbutt", "Superpower", "X-Scissor", "Explosion", "Signal Beam", "Ice Punch", "Fire Punch", "Thunder Punch", "Drain Punch", "Dragon Pulse", "Energy Ball", "Grass Knot", "Swagger", "Dazzling Gleam", "Power-Up Punch", "Flash Cannon", "Focus Blast", "Rock Polish", "Rock Slide", "Dream Eater", "Giga Drain", "Water Pulse", "Surf", "Waterfall", "Mega Punch", "Psyshock", "Cosmic Power", "Psychic Fangs", "Double Iron Bash", "Yawn"}
-		local Math_upvr = require(replicatedstorage.Functions.Math)
-		for _, child in pairs(tbl) do
-			Math_upvr:FuncAddItem(child, Player.Bag.TMs, 1)
-		end
-	end
-});
-
 Tabs.Main:AddButton({
 	Title = "Max out EVs",
 	Description = "Maxes out the EV of every pokemon in your party.",
@@ -305,10 +275,10 @@ Tabs.Main:AddButton({
 	Description = "Maxes out the lvl of every pokemon in your party.",
 	Callback = function()
 		for _,v in pairs(Player.PokemonParty:GetChildren()) do
-		    while v.Lvl.Value < 100 do
-			replicatedstorage:WaitForChild("REvents"):WaitForChild("Internal"):WaitForChild("GetExp"):InvokeServer(v,450000,"Yb58ByaIXKSIbY1qiqpmtqgiGKve5bhyLY3BA8Kp")
-			replicatedstorage:WaitForChild("REvents"):WaitForChild("Pokemon"):WaitForChild("NeoPill"):InvokeServer(v)
-		    end
+			while v.Lvl.Value < 100 do
+				replicatedstorage:WaitForChild("REvents"):WaitForChild("Internal"):WaitForChild("GetExp"):InvokeServer(v,450000,"Yb58ByaIXKSIbY1qiqpmtqgiGKve5bhyLY3BA8Kp")
+				replicatedstorage:WaitForChild("REvents"):WaitForChild("Pokemon"):WaitForChild("NeoPill"):InvokeServer(v)
+			end
 		end
 	end
 });
@@ -454,6 +424,71 @@ for _, gui in pairs(game.CoreGui:GetChildren()) do
 		fluentFrame = gui
 	end
 end
+
+-- Spawn items
+local items = {
+	"Venusaurite",
+	"Charizardite X",
+	"Charizardite Y",
+	"Blastoisinite",
+	"Mewtwonite X",
+	"Mewtwonite Y",
+}
+Tabs.SpawnItems:AddButton({
+	Title = "Get Robux items",
+	Description = "Get free Mega Stones.",
+	Callback = function()
+		local event = replicatedstorage.REvents.Pokemon.ioome
+		for _, item in pairs(items) do
+			event:InvokeServer(item)
+		end
+	end
+});
+
+Tabs.SpawnItems:AddButton({
+	Title = "Get ALL tms",
+	Description = "Literally gives you every tm.",
+	Callback = function()
+		local tbl = {"Rock Tomb", "Swords Dance", "Calm Mind", "Bulk Up", "Protect", "Reflect", "Light Screen", "Roost", "Double Team", "Charge Beam", "Thunderbolt", "Thunder", "Thunder Wave", "Will-O-Wisp", "Flamethrower", "Fire Blast", "Aerial Ace", "Brick Break", "Stone Edge", "Rest", "Toxic", "Ice Beam", "Blizzard", "Psychic", "Earthquake", "Dark Pulse", "Sludge Bomb", "Overheat", "Scald", "Dragon Claw", "Hidden Power", "Shadow Ball", "Zen Headbutt", "Superpower", "X-Scissor", "Explosion", "Signal Beam", "Ice Punch", "Fire Punch", "Thunder Punch", "Drain Punch", "Dragon Pulse", "Energy Ball", "Grass Knot", "Swagger", "Dazzling Gleam", "Power-Up Punch", "Flash Cannon", "Focus Blast", "Rock Polish", "Rock Slide", "Dream Eater", "Giga Drain", "Water Pulse", "Surf", "Waterfall", "Mega Punch", "Psyshock", "Cosmic Power", "Psychic Fangs", "Double Iron Bash", "Yawn"}
+		local Math_upvr = require(replicatedstorage.Functions.Math)
+		for _, child in pairs(tbl) do
+			Math_upvr:FuncAddItem(child, Player.Bag.TMs, 1)
+		end
+	end
+});
+
+local ballSelection = "Great Ball"
+local selectItemDropdown = Tabs.SpawnItems:AddDropdown("selectItemDropdown",{
+	Title = "Select ball:",
+	Values = {"Great Ball", "Ultra Ball", "Master Ball"},
+	Multi = false,
+	Default = 1,
+})
+selectItemDropdown:SetValue("Great Ball")
+
+selectItemDropdown:OnChanged(function(value)
+	ballSelection = value
+end)
+
+local amountInput = Tabs.SpawnItems:AddInput("AmountInput", {
+	Title = "Enter amount:",
+	Default = "",
+	Placeholder = "e.g. 100",
+	Numeric = true,
+	Finished = false,
+	Callback = function(value)
+
+	end
+})
+
+Tabs.SpawnItems:AddButton({
+	Title = "Add balls",
+	Description = "Spawns the amount selected of the ball selected.",
+	Callback = function()
+		local Math_upvr = require(replicatedstorage:WaitForChild("Functions").Math)
+		Math_upvr:FuncAddItem(ballSelection, Player.Bag.Pokeball, tonumber(amountInput.Value) or 1)
+	end
+});
 
 -- Shop
 local cashInput = Tabs.Shop:AddInput("CashInput", {
