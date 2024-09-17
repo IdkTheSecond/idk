@@ -457,9 +457,9 @@ Tabs.SpawnItems:AddButton({
 	end
 });
 
-local ballSelection = "Great Ball"
+local itemSelection = "Great Ball"
 local selectItemDropdown = Tabs.SpawnItems:AddDropdown("selectItemDropdown",{
-	Title = "Select ball:",
+	Title = "Select item:",
 	Values = {"Great Ball", "Ultra Ball", "Master Ball", "Mythical Leaf", "Odd Keystone", "Full Restore", "Fire Stone", "Water Stone", "Thunder Stone", "Leaf Stone", "Moon Stone", "Leftovers", "Sweet Apple", "Tart Apple", "Sun and Moon Stone", "Water Scroll", "Dark Scroll", "Lucky Egg"},
 	Multi = false,
 	Default = 1,
@@ -467,7 +467,7 @@ local selectItemDropdown = Tabs.SpawnItems:AddDropdown("selectItemDropdown",{
 selectItemDropdown:SetValue("Great Ball")
 
 selectItemDropdown:OnChanged(function(value)
-	ballSelection = value
+	itemSelection = value
 end)
 
 local amountInput = Tabs.SpawnItems:AddInput("AmountInput", {
@@ -482,11 +482,11 @@ local amountInput = Tabs.SpawnItems:AddInput("AmountInput", {
 })
 
 Tabs.SpawnItems:AddButton({
-	Title = "Add balls",
-	Description = "Spawns the amount selected of the ball selected.",
+	Title = "Add items",
+	Description = "Spawns the item you selected in the pokeballs section of your bag",
 	Callback = function()
 		local Math_upvr = require(replicatedstorage:WaitForChild("Functions").Math)
-		Math_upvr:FuncAddItem(ballSelection, Player.Bag.Pokeball, tonumber(amountInput.Value) or 1)
+		Math_upvr:FuncAddItem(itemSelection, Player.Bag.Pokeball, tonumber(amountInput.Value) or 1)
 	end
 });
 
