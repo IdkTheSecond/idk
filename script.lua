@@ -460,7 +460,7 @@ Tabs.SpawnItems:AddButton({
 local ballSelection = "Great Ball"
 local selectItemDropdown = Tabs.SpawnItems:AddDropdown("selectItemDropdown",{
 	Title = "Select ball:",
-	Values = {"Great Ball", "Ultra Ball", "Master Ball"},
+	Values = {"Great Ball", "Ultra Ball", "Master Ball", "Mythical Leaf", "Odd Keystone", "Full Restore", "Fire Stone", "Water Stone", "Thunder Stone", "Leaf Stone", "Moon Stone", "Leftovers", "Sweet Apple", "Tart Apple", "Sun and Moon Stone", "Water Scroll", "Dark Scroll", "Lucky Egg"},
 	Multi = false,
 	Default = 1,
 })
