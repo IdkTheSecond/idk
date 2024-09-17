@@ -4,6 +4,7 @@
 local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
 local replicatedstorage = game:GetService("ReplicatedStorage")
+local Math_upvr = require(replicatedstorage.Functions.Math)
 local stripItems = true
 local catchSkins = true
 local sniping = false
@@ -44,90 +45,11 @@ snipeAreas["Route Zarude"] = {CFrame.new(-3.606940269470215, -73.29591369628906,
 snipeAreas["Aether Paradise"] = {CFrame.new(-3444.374267578125, 23.305910110473633, -6172.48046875), {"Tapu Bulu", "Tapu Lele", "Tapu Fini", "Tapu Koko"}}
 snipeAreas["Isle Of Armor"] = {CFrame.new(2242.07861328125, 71.2955322265625, 2.5405452251434326), {"Victini", "Manaphy", "Jirachi", "Shaymin", "Phione"}}
 
-local alwaysCatch = {
-	"Raikou", "Entei", "Suicune",
-	"Celebi",
-	"Darkrai",
-	"Mewtwo", "Mew",
-	"Latios", "Latias",
-	"Cobalion", "Virizion", "Terrakion",
-	-- These three require Keldeo in party
-	"Groudon", "Kyogre"} -- Random spawns
--- Groudon and Kyogre require Rayquaza in party
-
-local sortPokemonToBox = {
-	Articuno = 1,
-	Zapdos = 1,
-	Moltres = 1,
-	Mewtwo = 2,
-	Mew = 2,
-	Dialga = 3,
-	Palkia = 3,
-	Giratina = 3,
-	Kyurem = 4,
-	Zekrom = 4,
-	Reshiram = 4,
-	Rayquaza = 5,
-	Kyogre = 5,
-	Groudon = 5,
-	Regigigas = 6,
-	Regice = 6,
-	Registeel = 6,
-	Regirock = 6,
-	Regidrago = 6,
-	Regieleki = 6,
-	Manaphy = 7,
-	Phione = 7,
-	Xerneas = 8,
-	Yveltal = 8,
-	Zygarde = 8,
-	Darkrai = 9,
-	Cresselia = 9,
-	Raikou = 10,
-	Entei = 10,
-	Suicune = 10,
-	Lugia = 11,
-	["Ho-Oh"] = 11,
-	Keldeo = 12,
-	Cobalion = 12,
-	Virizion = 12,
-	Terrakion = 12,
-	Latias = 13,
-	Latios = 13,
-	Thundurus = 14,
-	Tornadus = 14,
-	Landorus = 14,
-	["Tapu Lele"] = 15,
-	["Tapu Bulu"] = 15,
-	["Tapu Fini"] = 15,
-	["Tapu Koko"] = 15,
-	["Uxie"] = 16,
-	["Azelf"] = 16,
-	["Mesprit"] = 16,
-	Cosmog = 17,
-	Cosmoem = 17,
-	Solgaleo = 17,
-	Lunala = 17,
-	Necrozma = 17,
-	Zacian = 18,
-	Zamazenta = 18,
-	Celebi = 19,
-	Jirachi = 19,
-	Deoxys = 19,
-	Heatran = 19,
-	Shaymin = 19,
-	["Type: Null"] = 19,
-	Silvally = 19,
-	Victini = 19,
-	Meloetta = 19,
-	Volcanion = 19,
-	Marshadow = 19,
-	Zeraora = 19,
-	Zarude = 19,
-	Meltan = 20,
-	Melmetal = 20
-}
-
+local items = {"Great Ball", "Ultra Ball", "Master Ball", "Mythical Leaf", "Odd Keystone", "Full Restore", "Fire Stone", "Water Stone", "Thunder Stone", "Leaf Stone", "Moon Stone", "Leftovers", "Sweet Apple", "Tart Apple", "Sun and Moon Stone", "Water Scroll", "Dark Scroll", "Lucky Egg"}
+local stones = {"Venusaurite","Charizardite X","Charizardite Y","Blastoisinite","Mewtwonite X","Mewtwonite Y"}
+local tbl = {"Rock Tomb", "Swords Dance", "Calm Mind", "Bulk Up", "Protect", "Reflect", "Light Screen", "Roost", "Double Team", "Charge Beam", "Thunderbolt", "Thunder", "Thunder Wave", "Will-O-Wisp", "Flamethrower", "Fire Blast", "Aerial Ace", "Brick Break", "Stone Edge", "Rest", "Toxic", "Ice Beam", "Blizzard", "Psychic", "Earthquake", "Dark Pulse", "Sludge Bomb", "Overheat", "Scald", "Dragon Claw", "Hidden Power", "Shadow Ball", "Zen Headbutt", "Superpower", "X-Scissor", "Explosion", "Signal Beam", "Ice Punch", "Fire Punch", "Thunder Punch", "Drain Punch", "Dragon Pulse", "Energy Ball", "Grass Knot", "Swagger", "Dazzling Gleam", "Power-Up Punch", "Flash Cannon", "Focus Blast", "Rock Polish", "Rock Slide", "Dream Eater", "Giga Drain", "Water Pulse", "Surf", "Waterfall", "Mega Punch", "Psyshock", "Cosmic Power", "Psychic Fangs", "Double Iron Bash", "Yawn"}
+local sortPokemonToBox = {Articuno = 1,Zapdos = 1,Moltres = 1,Mewtwo = 2,Mew = 2,Dialga = 3,Palkia = 3,Giratina = 3,Kyurem = 4,Zekrom = 4,Reshiram = 4,Rayquaza = 5,Kyogre = 5,Groudon = 5,Regigigas = 6,Regice = 6,Registeel = 6,Regirock = 6,Regidrago = 6,Regieleki = 6,Manaphy = 7,Phione = 7,Xerneas = 8,Yveltal = 8,Zygarde = 8,Darkrai = 9,Cresselia = 9,Raikou = 10,Entei = 10,Suicune = 10,Lugia = 11,["Ho-Oh"] = 11,Keldeo = 12,Cobalion = 12,Virizion = 12,Terrakion = 12,Latias = 13,Latios = 13,Thundurus = 14,Tornadus = 14,Landorus = 14,["Tapu Lele"] = 15,["Tapu Bulu"] = 15,["Tapu Fini"] = 15,["Tapu Koko"] = 15,["Uxie"] = 16,["Azelf"] = 16,["Mesprit"] = 16,Cosmog = 17,Cosmoem = 17,Solgaleo = 17,Lunala = 17,Necrozma = 17,Zacian = 18,Zamazenta = 18,Celebi = 19,Jirachi = 19,Deoxys = 19,Heatran = 19,Shaymin = 19,["Type: Null"] = 19,Silvally = 19,Victini = 19,Meloetta = 19,Volcanion = 19,Marshadow = 19,Zeraora = 19,Zarude = 19,Meltan = 20,Melmetal = 20}
+local alwaysCatch = {"Raikou", "Entei", "Suicune","Celebi","Darkrai","Mewtwo", "Mew","Latios", "Latias","Cobalion", "Virizion", "Terrakion","Groudon", "Kyogre"}
 --// Functions \\--
 function pokeball()
 	--game:GetService("ReplicatedStorage").REvents.Pokemon.catchPokemon:InvokeServer(pokemon, ball)
@@ -426,20 +348,12 @@ for _, gui in pairs(game.CoreGui:GetChildren()) do
 end
 
 -- Spawn items
-local items = {
-	"Venusaurite",
-	"Charizardite X",
-	"Charizardite Y",
-	"Blastoisinite",
-	"Mewtwonite X",
-	"Mewtwonite Y",
-}
 Tabs.SpawnItems:AddButton({
 	Title = "Get Robux items",
 	Description = "Get free Mega Stones.",
 	Callback = function()
 		local event = replicatedstorage.REvents.Pokemon.ioome
-		for _, item in pairs(items) do
+		for _, item in stones do
 			event:InvokeServer(item)
 		end
 	end
@@ -449,9 +363,7 @@ Tabs.SpawnItems:AddButton({
 	Title = "Get ALL tms",
 	Description = "Literally gives you every tm.",
 	Callback = function()
-		local tbl = {"Rock Tomb", "Swords Dance", "Calm Mind", "Bulk Up", "Protect", "Reflect", "Light Screen", "Roost", "Double Team", "Charge Beam", "Thunderbolt", "Thunder", "Thunder Wave", "Will-O-Wisp", "Flamethrower", "Fire Blast", "Aerial Ace", "Brick Break", "Stone Edge", "Rest", "Toxic", "Ice Beam", "Blizzard", "Psychic", "Earthquake", "Dark Pulse", "Sludge Bomb", "Overheat", "Scald", "Dragon Claw", "Hidden Power", "Shadow Ball", "Zen Headbutt", "Superpower", "X-Scissor", "Explosion", "Signal Beam", "Ice Punch", "Fire Punch", "Thunder Punch", "Drain Punch", "Dragon Pulse", "Energy Ball", "Grass Knot", "Swagger", "Dazzling Gleam", "Power-Up Punch", "Flash Cannon", "Focus Blast", "Rock Polish", "Rock Slide", "Dream Eater", "Giga Drain", "Water Pulse", "Surf", "Waterfall", "Mega Punch", "Psyshock", "Cosmic Power", "Psychic Fangs", "Double Iron Bash", "Yawn"}
-		local Math_upvr = require(replicatedstorage.Functions.Math)
-		for _, child in pairs(tbl) do
+		for _, child in tbl do
 			Math_upvr:FuncAddItem(child, Player.Bag.TMs, 1)
 		end
 	end
@@ -460,7 +372,7 @@ Tabs.SpawnItems:AddButton({
 local itemSelection = "Great Ball"
 local selectItemDropdown = Tabs.SpawnItems:AddDropdown("selectItemDropdown",{
 	Title = "Select item:",
-	Values = {"Great Ball", "Ultra Ball", "Master Ball", "Mythical Leaf", "Odd Keystone", "Full Restore", "Fire Stone", "Water Stone", "Thunder Stone", "Leaf Stone", "Moon Stone", "Leftovers", "Sweet Apple", "Tart Apple", "Sun and Moon Stone", "Water Scroll", "Dark Scroll", "Lucky Egg"},
+	Values = items,
 	Multi = false,
 	Default = 1,
 })
@@ -485,8 +397,17 @@ Tabs.SpawnItems:AddButton({
 	Title = "Add items",
 	Description = "Spawns the item you selected in the pokeballs section of your bag",
 	Callback = function()
-		local Math_upvr = require(replicatedstorage:WaitForChild("Functions").Math)
 		Math_upvr:FuncAddItem(itemSelection, Player.Bag.Pokeball, tonumber(amountInput.Value) or 1)
+	end
+});
+
+Tabs.SpawnItems:AddButton({
+	Title = "Give all items",
+	Description = "Gives you the amount you inputted of each item",
+	Callback = function()
+		for _,v in items do
+			Math_upvr:FuncAddItem(v, Player.Bag.Pokeball, tonumber(amountInput.Value) or 1)
+		end
 	end
 });
 
