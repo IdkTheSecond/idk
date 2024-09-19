@@ -37,6 +37,7 @@ snipeAreas["Pokemon Tower"] = {CFrame.new(-2473.245361328125, 99.56173706054688,
 snipeAreas["Route Zarude"] = {CFrame.new(-3.606940269470215, -73.29591369628906, -2784.8251953125), {"Zarude"}}
 snipeAreas["Aether Paradise"] = {CFrame.new(-3444.374267578125, 23.305910110473633, -6172.48046875), {"Tapu Bulu", "Tapu Lele", "Tapu Fini", "Tapu Koko"}}
 snipeAreas["Isle Of Armor"] = {CFrame.new(2242.07861328125, 71.2955322265625, 2.5405452251434326), {"Victini", "Manaphy", "Jirachi", "Shaymin", "Phione"}}
+snipeAreas["Deoxys Patch"] = {CFrame.new(926.9016723632812, -21.03388214111328, -4186.97998046875), {"Deoxys-Normal"}}
 
 local items = {"Great Ball", "Ultra Ball", "Master Ball", "Mythical Leaf", "Odd Keystone", "Full Restore", "Fire Stone", "Water Stone", "Thunder Stone", "Leaf Stone", "Moon Stone", "Leftovers", "Sweet Apple", "Tart Apple", "Sun and Moon Stone", "Water Scroll", "Dark Scroll", "Lucky Egg"}
 local stones = {"Venusaurite","Charizardite X","Charizardite Y","Blastoisinite","Mewtwonite X","Mewtwonite Y"}
