@@ -154,6 +154,19 @@ Tabs.Main:AddButton({
 	end
 });
 
+Tabs.Main:AddButton({
+	Title = "Go to wormhole",
+	Description = "Tps you to closes wormhole if there is one.",
+	Callback = function()
+		local hole = workspace:FindFirstChild("Wormhole")
+		if hole then
+			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = hole.WorldPivot
+		else
+			print("No hole found!")
+		end
+	end
+});
+
 --[[
 Tabs.Main:AddButton({
 	Title = "Catch opponent",
