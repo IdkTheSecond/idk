@@ -211,6 +211,7 @@ Tabs.Main:AddButton({
 	Callback = function()
 		Player.PlayerGui.Main.BattleScene.Visible = false
 		Player.PlayerGui.Main.BlackScreen.Visible = false
+		game:GetService("ReplicatedStorage").REvents.Pokemon.changeRequests:FireServer(game.Players.LocalPlayer.InBattle, false)
 	end
 });
 
