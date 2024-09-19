@@ -28,20 +28,13 @@ replicatedstorage.REvents.Internal.Compare:InvokeServer("Ultra Ball", 1, "Pokeba
 --// Long lists \\--
 local snipeAreas = {}
 snipeAreas["Mausoleum Of Origins"] = {CFrame.new(-669.0263671875, 75.08966827392578, -4704.48193359375), {"Lugia", "Zekrom", "Reshiram"}}
--- Zekrom requires Kyurem + electric type in party, Reshiram requires Kyurem + fire type in party
 snipeAreas["Victory Road"] = {CFrame.new(-6390.599609375, 54.61821746826172, -1274.2086181640625), {"Dialga", "Registeel", "Ho-Oh"}}
--- Dialga requires champ badge
 snipeAreas["Mt Moon"] = {CFrame.new(1971.6612548828125, -75.65400695800781, -1757.248779296875), {"Regirock"}}
 snipeAreas["Mt Cinnabar"] = {CFrame.new(-4348.82958984375, 44.533424377441406, 1954.56591796875), {"Moltres", "Volcanion", "Regice"}}
 snipeAreas["Seafoam Cave"] = {CFrame.new(-4213.1396484375, 9.833534240722656, -341.2264099121094), {"Kyurem", "Articuno"}}
--- Kyurem requires champ badge
 snipeAreas["Water Powerplant"] = {CFrame.new(-4386.94384765625, -6.265628337860107, 1532.1419677734375), {"Rotom", "Meltan"}}
--- Rotom requires 1 pure ghost and electric type in party
 snipeAreas["Pokemon Tower"] = {CFrame.new(-2473.245361328125, 99.56173706054688, 1799.0164794921875), {"Giratina", "Marshadow"}}
--- Giratina requires champ badge
 snipeAreas["Route Zarude"] = {CFrame.new(-3.606940269470215, -73.29591369628906, -2784.8251953125), {"Zarude"}}
-
--- Requirements not checked:
 snipeAreas["Aether Paradise"] = {CFrame.new(-3444.374267578125, 23.305910110473633, -6172.48046875), {"Tapu Bulu", "Tapu Lele", "Tapu Fini", "Tapu Koko"}}
 snipeAreas["Isle Of Armor"] = {CFrame.new(2242.07861328125, 71.2955322265625, 2.5405452251434326), {"Victini", "Manaphy", "Jirachi", "Shaymin", "Phione"}}
 
@@ -304,7 +297,7 @@ Tabs.Sniper:AddButton({
 					else
 						print(pokemonName .. " found!")
 						if sortPokemonToSpecificBox then
-							boxToAdd = sortPokemonToBox[pokemonName] or 0
+							boxToAdd = sortPokemonToBox[pokemonName] or 1
 							if boxToAdd ~= 0 then
 								boxToAdd += sortPokemonToSpecificBoxOffset
 							else
