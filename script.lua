@@ -77,7 +77,7 @@ function pokedex()
 end
 function itemstrip()
 	if stripItems then
-		if pokemon.HeldItem.Value ~= "" then
+		if pokemon.HeldItem.Value ~= "" and pokemon.HeldItem.Value ~= "Dark Skinifier" then
 			game:GetService("ReplicatedStorage").REvents.Pokemon.HeldItem:InvokeServer(pokemon,"")
 		end
 	end
@@ -335,11 +335,16 @@ Tabs.Sniper:AddButton({
 					task.spawn(pokedex)
 
 				elseif stripItems and pokemon:WaitForChild("HeldItem").Value ~= "" then
-					print(pokemonName .. " WITH ITEM found! Item: " .. pokemon.HeldItem.Value)
+					if pokemon:WaitForChild("HeldItem").Value == "Dark Skinifier" then
+						task.spawn(pokeball)
+						catch(1)
+						task.spawn(pokedex)
+					else
+						print(pokemonName .. " WITH ITEM found! Item: " .. pokemon.HeldItem.Value)
 
-					task.spawn(itemstrip)
-					replicatedstorage.REvents.PC.Release:FireServer(game:GetService("Players").LocalPlayer.OppPokemon:GetChildren()[1])
-
+						task.spawn(itemstrip)
+						replicatedstorage.REvents.PC.Release:FireServer(game:GetService("Players").LocalPlayer.OppPokemon:GetChildren()[1])
+					end
 				else
 					--print("fail: " .. pokemonName)
 					replicatedstorage.REvents.PC.Release:FireServer(game:GetService("Players").LocalPlayer.OppPokemon:GetChildren()[1])
